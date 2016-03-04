@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<script type="server/javascript">
+importClass(Packages.biz.netcentric.Person);
+var married=Person.lookup("2");
+</script>
+<head>
+    <title>${married.name}</title>
+</head>
+<body>
+<h1 title="${married.name}">${married.name}</h1>
+<h2 title="${married.spouse}">Spouse: ${married.spouse}</h2>
+</body>
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<script type="server/javascript">
+importClass(Packages.biz.netcentric.Person);
+var notMarried=Person.lookup("1");
+var married=Person.lookup("2");
+</script>
+<head></head>
+<body>
+<h2 data-if="notMarried.married" title="${notMarried.spouse}">Spouse: ${notMarried.spouse}</h2>
+
+<h2 data-if="married.married" title="${married.spouse}">Spouse: ${married.spouse}</h2>
+
+<div data-if="notMarried.married">
+    <ul>
+        <li title="${notMarried.spouse}">Spouse: ${notMarried.spouse}</li>
+    </ul>
+</div>
+
+<div data-if="married.married">
+    <ul>
+        <li title="${married.spouse}">Spouse: ${married.spouse}</li>
+    </ul>
+</div>
+</body>
+</html>

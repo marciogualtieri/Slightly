@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<script type="server/javascript">
+importClass(Packages.biz.netcentric.Person);
+var id=request.getParameter("id");
+var person=Person.lookup(id);
+
+</script>
+<head>
+    <link rel="stylesheet" href="/css/fancy.css">
+</head>
+<body>
+<title>${person.name}</title>
+
+<table border=1>
+    <tr>
+        <th>Name</th>
+    </tr>
+    <tr>
+        <td>${person.name}</td>
+    </tr>
+
+    <tr data-if="person.married">
+        <th>Spouse</th>
+    </tr>
+    <tr data-if="!person.married">
+        <th>Partner</th>
+    </tr>
+    <tr>
+        <td>${person.spouse}</td>
+    </tr>
+
+    <tr data-if="person.children.length > 0">
+        <th>Children</th>
+    </tr>
+    <tr data-if="person.children.length > 0" data-for-child="person.children">
+        <td>${child}</td>
+    </tr>
+</table>
+
+
+</body>
+</html>

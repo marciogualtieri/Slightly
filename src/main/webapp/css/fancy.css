@@ -1,0 +1,15 @@
+table {
+    border-collapse: collapse;
+}
+th {
+    border: 1px solid Aqua;
+    background: Aquamarine;
+    color: black;
+    font-weight: bold;
+    text-align: center;
+}
+td {
+    padding: 6px;
+    border: 1px solid Aquamarine;
+    text-align: left;
+}

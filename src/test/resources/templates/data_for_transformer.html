@@ -1,0 +1,12 @@
+<html>
+<script type="server/javascript">
+importClass(Packages.biz.netcentric.Person);
+var withChildren=Person.lookup("2");
+var withoutChildren=Person.lookup("3");
+</script>
+<head></head>
+<body>
+<div data-for-child="withChildren.children" title="${withChildren.name} child">Child: ${child}</div>
+<div data-for-child="withoutChildren.children" title="${withoutChildren.name} child">Child: ${child}</div>
+</body>
+</html>
