@@ -8,8 +8,14 @@ var person=Person.lookup(id);
 <head></head>
 <body>
 <title>${person.name}</title>
+
+<div id="header" data-inclusion="templates/header.html"/>
+
 <h1 title="${person.name}">${person.name}</h1>
 <h2 data-if="person.married" title="${person.spouse}">Spouse: ${person.spouse}</h2>
 <div data-for-child="person.children">Child: ${child}</div>
+
+<div id="footer" data-inclusion="templates/footer.html"/>
+
 </body>
 </html>

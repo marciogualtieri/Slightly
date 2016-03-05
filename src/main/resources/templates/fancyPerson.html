@@ -4,13 +4,25 @@
 importClass(Packages.biz.netcentric.Person);
 var id=request.getParameter("id");
 var person=Person.lookup(id);
-
 </script>
+
 <head>
     <link rel="stylesheet" href="/css/fancy.css">
 </head>
 <body>
+
 <title>${person.name}</title>
+
+<template id="watermark">
+    <div>
+        <img id="logo" src="/images/netcentric_logo.jpg" alt="logo"/>
+        <h5 id="slogan">slogan</h5>
+    </div>
+</template>
+
+<div class="watermark" id="header"></div>
+
+<br/>
 
 <table border=1>
     <tr>
@@ -38,6 +50,33 @@ var person=Person.lookup(id);
     </tr>
 </table>
 
+<br/>
+
+<div class="watermark" id="footer"></div>
+
+<script type="text/javascript">
+function supportsTemplate() {
+  return 'content' in document.createElement('template');
+};
+
+function renderWatermark(id, slogan) {
+  var watermark = document.querySelector('#watermark');
+  watermark.content.querySelector('#slogan').innerHTML = slogan;
+  var clone = document.importNode(watermark.content, true);
+  var host = document.querySelector(id);
+  host.appendChild(clone);
+};
+
+if (supportsTemplate()) {
+  renderWatermark('#header', 'Expect Excellence.');
+  renderWatermark('#footer', 'Code. Analyze. Build. Repair. Improve. Innovate.');
+};
+
+
+
+
+
+</script>
 
 </body>
 </html>

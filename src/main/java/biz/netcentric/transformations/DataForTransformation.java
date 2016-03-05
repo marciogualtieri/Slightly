@@ -6,6 +6,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import javax.script.ScriptException;
+import java.io.IOException;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -23,7 +24,7 @@ public class DataForTransformation extends Transformation {
     }
 
     @Override
-    public void apply(Document document) throws ScriptException {
+    public void apply(Document document) throws ScriptException, IOException {
         evaluateScript(document);
         Elements dataFors = document.select("[^data-for]");
         for (Element dataFor : dataFors) {

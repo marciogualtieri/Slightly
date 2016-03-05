@@ -18,6 +18,8 @@ public class TestHelper {
     public static final Document TEST_DATA_FOR_DOCUMENT;
     public static final List<Element> TEST_CHILDREN;
     public static final Document TEST_RENDERING_DOCUMENT;
+    public static final Document TEST_DATA_INCLUSION_DOCUMENT;
+
     public static final String TEST_SCRIPT =
             "importClass(Packages.biz.netcentric.Person);" +
                     "var notMarried=Person.lookup(\"1\");" +
@@ -30,6 +32,7 @@ public class TestHelper {
             TEST_DATA_IF_DOCUMENT = documentHelper.getHtmlFileAsDocument("templates/data_if_transformer.html");
             TEST_DATA_FOR_DOCUMENT = documentHelper.getHtmlFileAsDocument("templates/data_for_transformer.html");
             TEST_RENDERING_DOCUMENT = documentHelper.getHtmlFileAsDocument("templates/rendering_transformer.html");
+            TEST_DATA_INCLUSION_DOCUMENT = documentHelper.getHtmlFileAsDocument("templates/data_inclusion_transformer.html");
         } catch (IOException e) {
             throw new ExceptionInInitializerError(e);
         }

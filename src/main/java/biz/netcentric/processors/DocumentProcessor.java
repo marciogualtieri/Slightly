@@ -2,13 +2,11 @@ package biz.netcentric.processors;
 
 
 import biz.netcentric.script.ScriptScope;
-import biz.netcentric.transformations.DataForTransformation;
-import biz.netcentric.transformations.DataIfTransformation;
-import biz.netcentric.transformations.RenderingTransformation;
-import biz.netcentric.transformations.Transformation;
+import biz.netcentric.transformations.*;
 import org.jsoup.nodes.Document;
 
 import javax.script.ScriptException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +20,7 @@ public class DocumentProcessor {
         addTransformations();
     }
 
-    public void process(Document document) throws ScriptException {
+    public void process(Document document) throws ScriptException, IOException {
         for (Transformation transformation : transformations) {
             transformation.apply(document);
         }
@@ -30,6 +28,7 @@ public class DocumentProcessor {
 
     private void addTransformations() {
         transformations = new ArrayList<>();
+        transformations.add(new DataInclusionTransformation(scriptScope));
         transformations.add(new DataIfTransformation(scriptScope));
         transformations.add(new DataForTransformation(scriptScope));
         transformations.add(new RenderingTransformation(scriptScope));

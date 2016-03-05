@@ -4,6 +4,7 @@ import biz.netcentric.script.ScriptScope;
 import org.jsoup.nodes.Document;
 
 import javax.script.ScriptException;
+import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -20,7 +21,7 @@ public class RenderingTransformation extends Transformation {
     }
 
     @Override
-    public void apply(Document document) throws ScriptException {
+    public void apply(Document document) throws ScriptException, IOException {
         evaluateScript(document);
         String body = document.body().html();
         body = renderExpressionsInString(body);
