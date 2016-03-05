@@ -51,10 +51,28 @@ public class ScriptScopeTest {
     }
 
     @Test
+    public void whenExpressionEvaluatesToInteger_thenOk() throws Exception {
+        Integer result = scriptScope.evaluateToInteger("marriedWithChildren.children.length");
+        assertThat(result, equalTo(3));
+    }
+
+    @Test
     public void whenExpressionHasSyntaxError_thenException() throws Exception {
         when(scriptScope).evaluateOnly("i_do_not_exist.do_something()");
         then(caughtException())
                 .isInstanceOf(ScriptException.class)
                 .hasMessageContaining("javax.script.ScriptException: ReferenceError");
     }
+
+    @Test
+    public void whenExpressionIsFunction_thenOk() throws Exception {
+        String localName = scriptScope.evaluateToString("(function(){var notMarried = new Person(\"Lucy\", \"Rick\", false, 0); return notMarried.name;}())");
+        assertThat(localName, equalTo("Lucy"));
+        String globalName = scriptScope.evaluateToString("notMarried.name");
+        assertThat(globalName, equalTo("Name 1"));
+
+    }
+
+
+
 } 

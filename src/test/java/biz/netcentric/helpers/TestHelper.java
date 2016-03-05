@@ -13,12 +13,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TestHelper {
-    private static final DocumentHelper documentHelper = new DocumentHelper();
+    private static final HtmlHelper HTML_HELPER = new HtmlHelper();
     public static final Document TEST_DATA_IF_DOCUMENT;
     public static final Document TEST_DATA_FOR_DOCUMENT;
     public static final List<Element> TEST_CHILDREN;
     public static final Document TEST_RENDERING_DOCUMENT;
     public static final Document TEST_DATA_INCLUSION_DOCUMENT;
+    public static final Document TEST_DATA_LOCAL_VAR_DOCUMENT;
+    public static final String TEST_DATA_LOCAL_VAR_H1_RENDERED_EXPRESSION = "Person "
+            + "${(function(){var person = new Person(\"Lucy\", \"Rick\", true, 0); return person.name;}())} "
+            + "is married to person "
+            + "${(function(){var person = new Person(\"Lucy\", \"Rick\", true, 0); return person.spouse;}())}.";
+
+    public static final String RENDERED_PAGES_FOLDER = "pages";
 
     public static final String TEST_SCRIPT =
             "importClass(Packages.biz.netcentric.Person);" +
@@ -29,10 +36,12 @@ public class TestHelper {
 
     static {
         try {
-            TEST_DATA_IF_DOCUMENT = documentHelper.getHtmlFileAsDocument("templates/data_if_transformer.html");
-            TEST_DATA_FOR_DOCUMENT = documentHelper.getHtmlFileAsDocument("templates/data_for_transformer.html");
-            TEST_RENDERING_DOCUMENT = documentHelper.getHtmlFileAsDocument("templates/rendering_transformer.html");
-            TEST_DATA_INCLUSION_DOCUMENT = documentHelper.getHtmlFileAsDocument("templates/data_inclusion_transformer.html");
+            TEST_DATA_IF_DOCUMENT = HTML_HELPER.getHtmlFileAsDocument("templates/data_if_transformer.html");
+            TEST_DATA_FOR_DOCUMENT = HTML_HELPER.getHtmlFileAsDocument("templates/data_for_transformer.html");
+            TEST_RENDERING_DOCUMENT = HTML_HELPER.getHtmlFileAsDocument("templates/rendering_transformer.html");
+            TEST_DATA_INCLUSION_DOCUMENT = HTML_HELPER.getHtmlFileAsDocument("templates/data_inclusion_transformer.html");
+            TEST_DATA_LOCAL_VAR_DOCUMENT = HTML_HELPER.getHtmlFileAsDocument("templates/data_local_var_transformer.html");
+
         } catch (IOException e) {
             throw new ExceptionInInitializerError(e);
         }

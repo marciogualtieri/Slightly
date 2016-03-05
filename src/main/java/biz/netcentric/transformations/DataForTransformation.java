@@ -46,14 +46,14 @@ public class DataForTransformation extends Transformation {
     }
 
     private String getDataForAttributeName(Element dataFor) {
-        return documentHelper.getAttributeByPattern(
+        return htmlHelper.getAttributeByPattern(
                 dataFor,
                 DATA_FOR_ATTRIBUTE_NAME_PATTERN,
                 DATA_FOR_ATTRIBUTE_NAME_GROUP_INDEX);
     }
 
     private String getDataForVariableName(Element dataFor) {
-        return documentHelper.getAttributeByPattern(
+        return htmlHelper.getAttributeByPattern(
                 dataFor,
                 DATA_FOR_ATTRIBUTE_NAME_PATTERN,
                 DATA_FOR_VARIABLE_GROUP_INDEX);

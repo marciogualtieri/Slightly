@@ -44,6 +44,14 @@ public class ScriptScope {
         }
     }
 
+    public Integer evaluateToInteger(String expression) throws ScriptException {
+        try {
+            return (Integer) engine.eval(expression);
+        } catch (Exception e) {
+            throw new ScriptException(e);
+        }
+    }
+
     public void evaluateOnly(String script) throws ScriptException {
         try {
             engine.eval(script);

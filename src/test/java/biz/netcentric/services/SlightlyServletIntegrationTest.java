@@ -1,6 +1,6 @@
 package biz.netcentric.services;
 
-import biz.netcentric.helpers.DocumentHelper;
+import biz.netcentric.helpers.HtmlHelper;
 import biz.netcentric.helpers.TestHelper;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -23,10 +23,9 @@ import static org.hamcrest.core.IsEqual.equalTo;
 public class SlightlyServletIntegrationTest {
     private static final int BROWSER_TIMEOUT_SECS = 30;
     private static final String BASE_URL = "http://localhost:8080/Slightly/";
-    private static final String RENDERED_PAGES_FOLDER = "pages";
 
     private static FirefoxDriver browser;
-    private static final DocumentHelper documentHelper = new DocumentHelper();
+    private static final HtmlHelper htmlHelper = new HtmlHelper();
 
     @Before
     public void before() throws Exception {
@@ -57,9 +56,9 @@ public class SlightlyServletIntegrationTest {
     @Test
     public void whenIGetNonExistentResource_thenOk() throws Exception {
         Document document = getResourceInnerHtmlAsDocument("i/do/not/exist.html");
-        Document expectedDocument = documentHelper
-                .getHtmlFileAsDocument(
-                        String.format("%s/template_does_not_exist.html", RENDERED_PAGES_FOLDER));
+        Document expectedDocument = htmlHelper
+                .getHtmlFileAsDocument(TestHelper.RENDERED_PAGES_FOLDER +
+                        "/template_does_not_exist.html");
         assertThat(TestHelper.getNormalizedHtml(document),
                 equalTo(TestHelper.getNormalizedHtml(expectedDocument)));
     }
@@ -74,8 +73,8 @@ public class SlightlyServletIntegrationTest {
     private void assertPersonPage(int id) throws IOException {
         Document document = getResourceInnerHtmlAsDocument(String.format("person.html?id=%d", id));
         Document expectedDocument =
-                documentHelper.getHtmlFileAsDocument(
-                        String.format("%s/person%d.html", RENDERED_PAGES_FOLDER, id));
+                htmlHelper.getHtmlFileAsDocument(
+                        String.format("%s/person%d.html", TestHelper.RENDERED_PAGES_FOLDER, id));
         assertThat(TestHelper.getNormalizedHtml(document),
                 equalTo(TestHelper.getNormalizedHtml(expectedDocument)));
     }

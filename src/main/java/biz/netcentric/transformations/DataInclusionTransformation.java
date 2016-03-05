@@ -29,8 +29,9 @@ public class DataInclusionTransformation extends Transformation {
 
     private void processDataInclusion(Element dataInclusion) throws ScriptException, IOException {
         String templateFile = dataInclusion.attr(DATA_INCLUSION_ATTRIBUTE_NAME);
-        String inclusion = documentHelper.getHtmlFileAsString(templateFile);
+        String inclusion = htmlHelper.getHtmlFileAsString(templateFile);
         dataInclusion.html(inclusion);
         dataInclusion.removeAttr(DATA_INCLUSION_ATTRIBUTE_NAME);
     }
+
 }

@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class DocumentHelper {
+public class HtmlHelper {
 
     public Document getHtmlFileAsDocument(String fileNameAndPath) throws IOException {
         File file = getFileFromResources(fileNameAndPath);

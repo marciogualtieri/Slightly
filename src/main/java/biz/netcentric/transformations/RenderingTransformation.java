@@ -1,7 +1,12 @@
 package biz.netcentric.transformations;
 
 import biz.netcentric.script.ScriptScope;
+import org.apache.commons.collections.CollectionUtils;
+import org.jsoup.nodes.Attribute;
+import org.jsoup.nodes.Attributes;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import javax.script.ScriptException;
 import java.io.IOException;
@@ -13,8 +18,7 @@ import java.util.regex.Pattern;
  */
 public class RenderingTransformation extends Transformation {
 
-    private static final Pattern ENVELOPED_EXPRESSION_PATTERN = Pattern.compile("\\$\\{[^\\}]*\\}");
-    private static final Pattern EXPRESSION_ENVELOPE_PATTERN = Pattern.compile("(\\$\\{)|(\\})");
+    private static final Pattern ENVELOPED_EXPRESSION_PATTERN = Pattern.compile("\\$\\{[^\\$]*\\}");
 
     public RenderingTransformation(ScriptScope scriptScope) {
         super(scriptScope);
@@ -23,13 +27,31 @@ public class RenderingTransformation extends Transformation {
     @Override
     public void apply(Document document) throws ScriptException, IOException {
         evaluateScript(document);
-        String body = document.body().html();
-        body = renderExpressionsInString(body);
-        String head = document.head().html();
-        head = renderExpressionsInString(head);
-        document.body().html(body);
-        document.head().html(head);
+        Elements elements = document.select("*");
+        for (Element element : elements) {
+            renderElementAttributes(element);
+            if (isLeafElement(element)) {
+                renderElementInnerHtml(element);
+            }
+        }
         removeScript(document);
+    }
+
+    private void renderElementAttributes(Element element) throws ScriptException {
+        Attributes attributes = element.attributes();
+        for (Attribute attribute : attributes) {
+            String expression = attribute.getValue();
+            attribute.setValue(renderExpressionsInString(expression));
+        }
+    }
+
+    private void renderElementInnerHtml(Element element) throws ScriptException {
+        String expression = element.html();
+        element.html(renderExpressionsInString(expression));
+    }
+
+    private boolean isLeafElement(Element element) {
+        return CollectionUtils.isEmpty(element.children());
     }
 
     private String renderExpressionsInString(String string) throws ScriptException {
@@ -43,6 +65,6 @@ public class RenderingTransformation extends Transformation {
     }
 
     private String removeExpressionEnvelope(String expression) {
-        return EXPRESSION_ENVELOPE_PATTERN.matcher(expression).replaceAll("");
+        return expression.substring(2, expression.length() - 1);
     }
 }

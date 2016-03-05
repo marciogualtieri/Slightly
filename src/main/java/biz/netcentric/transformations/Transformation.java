@@ -1,6 +1,6 @@
 package biz.netcentric.transformations;
 
-import biz.netcentric.helpers.DocumentHelper;
+import biz.netcentric.helpers.HtmlHelper;
 import biz.netcentric.script.ScriptScope;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -15,7 +15,7 @@ import java.io.IOException;
 public abstract class Transformation {
 
     protected final ScriptScope scriptScope;
-    protected final DocumentHelper documentHelper = new DocumentHelper();
+    protected final HtmlHelper htmlHelper = new HtmlHelper();
 
     public Transformation(ScriptScope scriptScope) {
         this.scriptScope = scriptScope;

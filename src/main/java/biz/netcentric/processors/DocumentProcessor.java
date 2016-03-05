@@ -31,6 +31,7 @@ public class DocumentProcessor {
         transformations.add(new DataInclusionTransformation(scriptScope));
         transformations.add(new DataIfTransformation(scriptScope));
         transformations.add(new DataForTransformation(scriptScope));
+        transformations.add(new DataLocalVarTransformation(scriptScope));
         transformations.add(new RenderingTransformation(scriptScope));
     }
 }

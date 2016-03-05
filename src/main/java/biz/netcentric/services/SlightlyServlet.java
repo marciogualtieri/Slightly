@@ -1,6 +1,6 @@
 package biz.netcentric.services;
 
-import biz.netcentric.helpers.DocumentHelper;
+import biz.netcentric.helpers.HtmlHelper;
 import biz.netcentric.processors.DocumentProcessor;
 import biz.netcentric.script.ScriptScope;
 import org.jsoup.nodes.Document;
@@ -23,7 +23,7 @@ public class SlightlyServlet extends HttpServlet {
     private static final String JAVA_SCRIPT_ERROR_MESSAGE = "Error evaluating template's javascript: ";
     private static final String TEMPLATE_NOT_FOUND_ERROR_MESSAGE = "Template file could not be found.";
 
-    private final DocumentHelper documentHelper = new DocumentHelper();
+    private final HtmlHelper htmlHelper = new HtmlHelper();
     private ScriptScope scriptScope;
 
     public void init() throws ServletException {
@@ -41,7 +41,7 @@ public class SlightlyServlet extends HttpServlet {
         String template = buildTemplatePath(request.getRequestURI());
         try {
             scriptScope.exposeObject(request, "request");
-            Document document = documentHelper.getHtmlFileAsDocument(template);
+            Document document = htmlHelper.getHtmlFileAsDocument(template);
             DocumentProcessor documentProcessor = new DocumentProcessor(scriptScope);
             documentProcessor.process(document);
             writeDocumentToResponse(document, response);
