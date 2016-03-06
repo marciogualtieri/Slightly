@@ -2,7 +2,7 @@ package biz.netcentric.services;
 
 import biz.netcentric.helpers.HtmlHelper;
 import biz.netcentric.processors.DocumentProcessor;
-import biz.netcentric.script.ScriptScope;
+import biz.netcentric.wrappers.ScriptEngineWrapper;
 import org.jsoup.nodes.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,11 +24,11 @@ public class SlightlyServlet extends HttpServlet {
     private static final String TEMPLATE_NOT_FOUND_ERROR_MESSAGE = "Template file could not be found.";
 
     private final HtmlHelper htmlHelper = new HtmlHelper();
-    private ScriptScope scriptScope;
+    private ScriptEngineWrapper scriptEngineWrapper;
 
     public void init() throws ServletException {
         try {
-            scriptScope = new ScriptScope();
+            scriptEngineWrapper = new ScriptEngineWrapper();
         } catch (ScriptException e) {
             throw new ExceptionInInitializerError(e);
         }
@@ -40,9 +40,9 @@ public class SlightlyServlet extends HttpServlet {
         response.setContentType("text/html");
         String template = buildTemplatePath(request.getRequestURI());
         try {
-            scriptScope.exposeObject(request, "request");
+            scriptEngineWrapper.exposeObject(request, "request");
             Document document = htmlHelper.getHtmlFileAsDocument(template);
-            DocumentProcessor documentProcessor = new DocumentProcessor(scriptScope);
+            DocumentProcessor documentProcessor = new DocumentProcessor(scriptEngineWrapper);
             documentProcessor.process(document);
             writeDocumentToResponse(document, response);
         } catch (ScriptException e) {

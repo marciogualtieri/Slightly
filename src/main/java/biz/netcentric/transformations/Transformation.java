@@ -1,7 +1,7 @@
 package biz.netcentric.transformations;
 
 import biz.netcentric.helpers.HtmlHelper;
-import biz.netcentric.script.ScriptScope;
+import biz.netcentric.wrappers.ScriptEngineWrapper;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -14,17 +14,17 @@ import java.io.IOException;
  */
 public abstract class Transformation {
 
-    protected final ScriptScope scriptScope;
+    protected final ScriptEngineWrapper scriptEngineWrapper;
     protected final HtmlHelper htmlHelper = new HtmlHelper();
 
-    public Transformation(ScriptScope scriptScope) {
-        this.scriptScope = scriptScope;
+    public Transformation(ScriptEngineWrapper scriptEngineWrapper) {
+        this.scriptEngineWrapper = scriptEngineWrapper;
     }
 
     protected void evaluateScript(Document document) throws ScriptException {
         Elements scripts = document.select("script[type=server/javascript]");
         for (Element script : scripts) {
-            scriptScope.evaluateOnly(script.html());
+            scriptEngineWrapper.evaluateOnly(script.html());
         }
     }
 

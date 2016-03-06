@@ -1,9 +1,11 @@
 ### TABLE OF CONTENTS
-##### [TEST & BUILD THE APPLICATION](#test-and-build-the-application)
-##### [AUTOMATED TESTS](#automated-tests)
-##### [RUN THE WEB APP](#run-the-web-app)
-##### [ON THE DESIGN CHOICES](#on-the-design-choices)
-##### [OPTIONAL FEATURES](#optional-feature)
+#### [TEST & BUILD THE APPLICATION](#test-and-build-the-application)
+#### [AUTOMATED TESTS](#automated-tests)
+#### [RUN THE WEB APP](#run-the-web-app)
+#### [ON THE DESIGN CHOICES](#on-the-design-choices)
+#### [OPTIONAL FEATURES](#optional-feature)
+###### [TEMPLATE INCLUSION](#optional-feature-template-inclusion)
+###### [LOCAL VARIABLE](#optional-feature-local-variable)
 
 ### <a name="test-and-build-the-application"></a> TEST & BUILD THE APPLICATION
 
@@ -27,9 +29,11 @@ To run integration tests:
 
      $ maven clean verify
 
+A local Jetty server instance is started before integration tests and stopped after integration tests.
+
 ### <a name="run-the-web-app"></a> RUN THE WEB APP
 
-The following command will build, test and run the application in a local jetty server:
+The following command will build, test, deploy and run the application in a local Jetty server:
 
     mvn clean test package jetty:run
     
@@ -41,30 +45,30 @@ You may open the following URLs for manual testing:
 
 ### <a name="on-the-design-choices"></a> ON THE DESIGN CHOICES
 
-The most important thing to mention is the use of the [Command Pattern](https://en.wikipedia.org/wiki/Command_pattern) to implement the document processor.
+The most important thing to mention is the use of the [Command Pattern](https://en.wikipedia.org/wiki/Command_pattern) to implement the document processor, which renders the template into the HTML output.
 
 I decided to call my command classes "transformations" instead of calling them "commands" though.
 
-Each of the transformations that need to be applied to the document template (such as evaluate and process a data-if element, expand a data-for element, render javascript expressions) is implemented as a command class.
+Each of the transformations that need to be applied to the document template (such as evaluate and process data-if elements, expand data-for elements, render javascript expressions) is implemented as a command class (an specialization of the ```Transformation``` abstract class.
 
 The ```DocumentProcessor``` simply initializes a list of these transformations (commands) on creation and apply every and each one of them to the document when ```DocumentProcessor.process()``` is called.
 
 
     DataInclusionTransformation
-     ->
-       DataIfTransformation
-        ->
-          DataForTransformation
-           ->
-             DataLocalVarTransformation
-              ->
-               RenderingTransformation
+                =>
+                   DataIfTransformation
+                             =>
+                                DataForTransformation
+                                          =>
+                                             DataLocalVarTransformation
+                                                       =>
+                                                          RenderingTransformation
 
-Using this pattern creates a open-closed design. If a new transformation is required (such as adding support to template-element for instance), we only need to implement a new transformation class (e.g. ```TemplateElementTransformation```) and add an instance of this new class to the list of transformations of the ```DocumentProcessor```.
+Using this pattern creates a open-closed design: If a new transformation is required (such as adding support to template-element for instance), we only need to implement a new transformation class (e.g. ```TemplateElementTransformation```) and add an instance of this new class to the list of transformations of the ```DocumentProcessor```.
 
 The following frameworks used in this app are worth to mention:
 
-* [JSoup](http://jsoup.org/) for parsing HTML, which does character escaping by default. [The default escape mode is base](http://jsoup.org/apidocs/org/jsoup/nodes/Document.OutputSettings.html).
+* [JSoup](http://jsoup.org/) for parsing HTML, which does character escaping by default ([the default escape mode is base](http://jsoup.org/apidocs/org/jsoup/nodes/Document.OutputSettings.html)).
 
 * [Selenium WebDriver](http://www.seleniumhq.org/projects/webdriver/) for integration tests.
 
@@ -77,11 +81,13 @@ I'm using several other auxiliary frameworks, including Guava and Apache Commons
 
 ### <a name="optional-features"></a> OPTIONAL FEATURES
 
-Regarding the template inclusion feature, as far as my understanding of the HTML5 template element goes, this feature is not meant to be used in the manner suggested in the requirements.
+##### <a name="optional-feature-template-inclusion"></a> TEMPLATE INCLUSION
 
-The template element is defined inside the main page as a reusable component that can be rendered over and over inside the main page by javascript calls.
+As far as my understanding of the HTML5 template element goes, this feature is not meant to be used in the manner suggested in the requirements.
 
-The "fancy template" includes the use of the template element to build a header and footer for the page with the netcentric logo and a configurable slogan text underneath.
+The template element is defined inside the main page as a reusable component that can be rendered over and over inside the main page by the use of javascript calls.
+
+The "fancy template" includes the use of the HTML5 template element to build a header and footer for the page with the netcentric logo and a configurable slogan text underneath (serving as an example of its use).
 
 You will find the template definition and the javascript code in ```fancyPerson.html```.
 
@@ -103,13 +109,9 @@ After rendering:
          <h5>Code. Analyze. Build. Repair. Improve. Innovate.</h5>
     </div>
 
-Regarding the local variable feature, I have defined a new attribute for this purpose: ```data-local-var```.
+##### <a name="optional-feature-local-variable"></a> LOCAL VARIABLE
 
-My initial approach to implement the feature was to take advantage of ```javax.script.ScriptEngine``` capability of saving a given state (binding variables) and then rolling back to it.
-
-But I believe that this approach would demand a somehow cumbersome logic (one would have to find out if a given element that needs to be rendered is a child of some other element containing ```data-local-var```, save and then recover the binding variables).
-
-For this reason, I opted for a simpler approach. If an element contains the attribute, its inner HTML's expressions will be rendered inside a function call.
+I have defined a new attribute for this purpose: ```data-local-var```.
 
 For instance, given the following element:
 
@@ -117,20 +119,15 @@ For instance, given the following element:
         ${person.name}
     </h1>
 
-The node will be transformed as follows before its javascript is rendered by the ```RenderingTransformer```:
+The expression contained in the ```data-local-var``` attribute will be evaluated before the expressions contained in its inner HTML are rendered.
+
+The node will be transformed as follows:
 
     <h1>
-        ${(function(){var person = new Person("Lucy", "Rick", true, 0); return person.name;}())}
+        Lucy
     </h1>
 
-Another reason is that if I use the ```javax.script.ScriptEngine``` approach, I would have to do this during rendering.
-
-I don't want to couple the processing of the tag ```data-local-var``` with rendering. In this manner, I can separate these tasks in different transformations.
-
-
-Wrapping both the override expression and the contained expression inside a function creates a local scope isolated from the global scope.
-
-This approach works even if there are nested HTML elements inside, e.g.:
+It works even if there are nested HTML elements inside, e.g.:
 
     <div data-local-var='person = new Person("Lucy", "Rick", true, 0)'>
         <table>
@@ -148,14 +145,22 @@ Which would be rendered to:
     <div>
         <table>
             <tr>
-                <td>
-                    Name</td><td>${(function(){var person = new Person("Lucy", "Rick", true, 0); return person.name;}())}
-                </td>
+                <td>Name</td><td>Lucy</td>
             </tr>
             <tr>
-                <td>
-                    Spouse</td><td>${(function(){var person = new Person("Lucy", "Rick", true, 0); return person.spouse;}())}
-                 </td>
+                <td>Spouse</td><td>Rick</td>
             </tr>
         </table
      </div>
+
+Note that the template's expressions are rendered in two phases. The first one by ```DataLocalVarTransformation```, which only affects the elements with the ```data-local-var``` attribute.
+
+The second and last time by ```RenderingTransformation```, which renders all remaining expressions.
+
+Even though both transformations use the same script engine, before an element with ```data-local-var``` is rendered the engine's bindings are saved.
+
+After the element is rendered, the engine's bindings are recovered to the previous state. In this manner, the engine's bindings and the ```data-local-var``` elements bindings are isolated from one another.
+
+The design and implementation of this feature comes from my interpretation of the requirements. Hopefully is not too far off from what the person who wrote the requirements had in mind.
+
+Would be easier if these optional features were defined more precisely (like the mandatory ones), but I guess they were written in this way intentionally as part of the candidate evaluation process.

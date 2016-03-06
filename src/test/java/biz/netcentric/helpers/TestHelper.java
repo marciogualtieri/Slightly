@@ -20,15 +20,13 @@ public class TestHelper {
     public static final Document TEST_RENDERING_DOCUMENT;
     public static final Document TEST_DATA_INCLUSION_DOCUMENT;
     public static final Document TEST_DATA_LOCAL_VAR_DOCUMENT;
-    public static final String TEST_DATA_LOCAL_VAR_H1_RENDERED_EXPRESSION = "Person "
-            + "${(function(){var person = new Person(\"Lucy\", \"Rick\", true, 0); return person.name;}())} "
-            + "is married to person "
-            + "${(function(){var person = new Person(\"Lucy\", \"Rick\", true, 0); return person.spouse;}())}.";
+    public static final String TEST_DATA_LOCAL_VAR_H1_RENDERED_EXPRESSION = "Person Lucy is married to person Rick.";
 
     public static final String RENDERED_PAGES_FOLDER = "pages";
 
     public static final String TEST_SCRIPT =
-            "importClass(Packages.biz.netcentric.Person);" +
+            "load(\"nashorn:mozilla_compat.js\");" +
+                    "importClass(Packages.biz.netcentric.Person);" +
                     "var notMarried=Person.lookup(\"1\");" +
                     "var marriedWithChildren=Person.lookup(\"2\");";
     public static final List<String> TEST_CHILDREN_NAMES =

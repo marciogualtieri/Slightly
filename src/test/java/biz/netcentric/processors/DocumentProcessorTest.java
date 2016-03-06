@@ -1,9 +1,8 @@
-package test.biz.netcentric.processors;
+package biz.netcentric.processors;
 
 import biz.netcentric.helpers.HtmlHelper;
 import biz.netcentric.helpers.TestHelper;
-import biz.netcentric.processors.DocumentProcessor;
-import biz.netcentric.script.ScriptScope;
+import biz.netcentric.wrappers.ScriptEngineWrapper;
 import org.jsoup.nodes.Document;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,7 +17,7 @@ public class DocumentProcessorTest {
 
     @Before
     public void before() throws Exception {
-        documentProcessor = new DocumentProcessor(new ScriptScope());
+        documentProcessor = new DocumentProcessor(new ScriptEngineWrapper());
     }
 
     @Test

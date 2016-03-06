@@ -1,9 +1,7 @@
-package test.biz.netcentric.transformations;
+package biz.netcentric.transformations;
 
 import biz.netcentric.helpers.TestHelper;
-import biz.netcentric.script.ScriptScope;
-import biz.netcentric.transformations.DataInclusionTransformation;
-import biz.netcentric.transformations.Transformation;
+import biz.netcentric.wrappers.ScriptEngineWrapper;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.junit.Before;
@@ -17,24 +15,36 @@ import static org.hamcrest.core.IsNull.notNullValue;
 public class DataInclusionTransformationTest {
 
     private Transformation transformation;
-    private ScriptScope scriptScope;
+    private ScriptEngineWrapper scriptEngineWrapper;
 
     @Before
     public void before() throws Exception {
-        scriptScope = new ScriptScope();
-        transformation = new DataInclusionTransformation(scriptScope);
+        scriptEngineWrapper = new ScriptEngineWrapper();
+        transformation = new DataInclusionTransformation(scriptEngineWrapper);
     }
 
     @Test
-    public void whenApplyDataInclusionTransformation_thenInclusionTemplateIsAppended() throws Exception {
+    public void whenApplyDataInclusionTransformation_thenFooterTemplateIsAppended() throws Exception {
         Document document = TestHelper.TEST_DATA_INCLUSION_DOCUMENT.clone();
         transformation.apply(document);
-        Element brand = document.select("[id=brand]").first();
+        assertThatTemplateIsPresent(document,
+                "footer", "Netcentric", "Code. Analyze. Build. Repair. Improve. Innovate.");
+    }
+
+    @Test
+    public void whenApplyDataInclusionTransformation_thenHeaderTemplateIsAppended() throws Exception {
+        Document document = TestHelper.TEST_DATA_INCLUSION_DOCUMENT.clone();
+        transformation.apply(document);
+        assertThatTemplateIsPresent(document, "header", "Netcentric", "Expect Excellence.");
+    }
+
+    private void assertThatTemplateIsPresent(Document document, String id, String brandValue, String sloganValue) {
+        Element brand = document.select("[id=" + id + "_brand]").first();
         assertThat(brand, is(notNullValue()));
-        assertThat(brand.html(), equalTo("Netcentric"));
-        Element slogan = document.select("[id=slogan]").first();
+        assertThat(brand.html(), equalTo(brandValue));
+        Element slogan = document.select("[id=" + id + "_slogan]").first();
         assertThat(slogan, is(notNullValue()));
-        assertThat(slogan.html(), equalTo("Code. Analyze. Build. Repair. Improve. Innovate."));
+        assertThat(slogan.html(), equalTo(sloganValue));
     }
 
 }

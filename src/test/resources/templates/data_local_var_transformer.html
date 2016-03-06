@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <script type="server/javascript">
+load("nashorn:mozilla_compat.js");
 importClass(Packages.biz.netcentric.Person);
 var person=Person.lookup("2");
 </script>
@@ -9,6 +10,7 @@ var person=Person.lookup("2");
 <title>${person.name}</title>
 
 <h1 data-local-var='person = new Person("Lucy", "Rick", true, 0)'>Person ${person.name} is married to person ${person.spouse}.</h1>
+<h1 data-local-var="">Person ${person.name} is married to person ${person.spouse}.</h1>
 
 </body>
 </html>

@@ -1,6 +1,6 @@
 package biz.netcentric.transformations;
 
-import biz.netcentric.script.ScriptScope;
+import biz.netcentric.wrappers.ScriptEngineWrapper;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -14,8 +14,8 @@ import java.io.IOException;
 public class DataInclusionTransformation extends Transformation {
     private static final String DATA_INCLUSION_ATTRIBUTE_NAME = "data-inclusion";
 
-    public DataInclusionTransformation(ScriptScope scriptScope) {
-        super(scriptScope);
+    public DataInclusionTransformation(ScriptEngineWrapper scriptEngineWrapper) {
+        super(scriptEngineWrapper);
     }
 
     @Override

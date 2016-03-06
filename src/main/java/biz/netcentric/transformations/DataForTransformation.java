@@ -1,6 +1,6 @@
 package biz.netcentric.transformations;
 
-import biz.netcentric.script.ScriptScope;
+import biz.netcentric.wrappers.ScriptEngineWrapper;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -19,8 +19,8 @@ public class DataForTransformation extends Transformation {
     private static final int DATA_FOR_VARIABLE_GROUP_INDEX = 2;
     private static final String EXPRESSION_ENVELOPE_FORMAT = "\\$\\{%s\\}";
 
-    public DataForTransformation(ScriptScope scriptScope) {
-        super(scriptScope);
+    public DataForTransformation(ScriptEngineWrapper scriptEngineWrapper) {
+        super(scriptEngineWrapper);
     }
 
     @Override
@@ -36,7 +36,7 @@ public class DataForTransformation extends Transformation {
         String dataForAttribute = getDataForAttributeName(dataFor);
         String dataForVariable = getDataForVariableName(dataFor);
         String expression = dataFor.attr(dataForAttribute);
-        List dataList = scriptScope.evaluateToList(expression);
+        List dataList = scriptEngineWrapper.evaluateToList(expression);
         for (Object data : dataList) {
             Element dataElement =
                     buildDataElement(dataFor, dataForAttribute, dataForVariable, String.valueOf(data));

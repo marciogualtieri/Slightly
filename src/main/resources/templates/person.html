@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <script type="server/javascript">
+load("nashorn:mozilla_compat.js");
 importClass(Packages.biz.netcentric.Person);
 var id=request.getParameter("id");
 var person=Person.lookup(id);
@@ -9,13 +10,13 @@ var person=Person.lookup(id);
 <body>
 <title>${person.name}</title>
 
-<div id="header" data-inclusion="templates/header.html"/>
+<div id="header" data-inclusion="templates/header.html"></div>
 
 <h1 title="${person.name}">${person.name}</h1>
 <h2 data-if="person.married" title="${person.spouse}">Spouse: ${person.spouse}</h2>
 <div data-for-child="person.children">Child: ${child}</div>
 
-<div id="footer" data-inclusion="templates/footer.html"/>
+<div id="footer" data-inclusion="templates/footer.html"/></div>
 
 </body>
 </html>

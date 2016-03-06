@@ -1,7 +1,7 @@
 package biz.netcentric.processors;
 
 
-import biz.netcentric.script.ScriptScope;
+import biz.netcentric.wrappers.ScriptEngineWrapper;
 import biz.netcentric.transformations.*;
 import org.jsoup.nodes.Document;
 
@@ -12,11 +12,11 @@ import java.util.List;
 
 public class DocumentProcessor {
 
-    private final ScriptScope scriptScope;
+    private final ScriptEngineWrapper scriptEngineWrapper;
     private List<Transformation> transformations = new ArrayList<>();
 
-    public DocumentProcessor(ScriptScope scriptScope) {
-        this.scriptScope = scriptScope;
+    public DocumentProcessor(ScriptEngineWrapper scriptEngineWrapper) {
+        this.scriptEngineWrapper = scriptEngineWrapper;
         addTransformations();
     }
 
@@ -28,10 +28,10 @@ public class DocumentProcessor {
 
     private void addTransformations() {
         transformations = new ArrayList<>();
-        transformations.add(new DataInclusionTransformation(scriptScope));
-        transformations.add(new DataIfTransformation(scriptScope));
-        transformations.add(new DataForTransformation(scriptScope));
-        transformations.add(new DataLocalVarTransformation(scriptScope));
-        transformations.add(new RenderingTransformation(scriptScope));
+        transformations.add(new DataInclusionTransformation(scriptEngineWrapper));
+        transformations.add(new DataIfTransformation(scriptEngineWrapper));
+        transformations.add(new DataForTransformation(scriptEngineWrapper));
+        transformations.add(new DataLocalVarTransformation(scriptEngineWrapper));
+        transformations.add(new RenderingTransformation(scriptEngineWrapper));
     }
 }

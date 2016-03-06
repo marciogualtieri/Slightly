@@ -40,17 +40,17 @@ public class SlightlyServletIntegrationTest {
 
     @Test
     public void whenIGetTheRenderedPersonOnePageResource_thenOk() throws Exception {
-        assertPersonPage(1);
+        assertThatPersonPageIsCorrect(1);
     }
 
     @Test
     public void whenIGetTheRenderedPersonTwoPageResource_thenOk() throws Exception {
-        assertPersonPage(2);
+        assertThatPersonPageIsCorrect(2);
     }
 
     @Test
     public void whenIGetTheRenderedPersonThreePageResource_thenOk() throws Exception {
-        assertPersonPage(3);
+        assertThatPersonPageIsCorrect(3);
     }
 
     @Test
@@ -70,7 +70,7 @@ public class SlightlyServletIntegrationTest {
         return Jsoup.parseBodyFragment(htmlString, "UTF-8");
     }
 
-    private void assertPersonPage(int id) throws IOException {
+    private void assertThatPersonPageIsCorrect(int id) throws IOException {
         Document document = getResourceInnerHtmlAsDocument(String.format("person.html?id=%d", id));
         Document expectedDocument =
                 htmlHelper.getHtmlFileAsDocument(

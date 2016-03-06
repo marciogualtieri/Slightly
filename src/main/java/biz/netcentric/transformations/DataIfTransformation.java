@@ -1,6 +1,6 @@
 package biz.netcentric.transformations;
 
-import biz.netcentric.script.ScriptScope;
+import biz.netcentric.wrappers.ScriptEngineWrapper;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -14,8 +14,8 @@ import java.io.IOException;
 public class DataIfTransformation extends Transformation {
     private static final String DATA_IF_ATTRIBUTE_NAME = "data-if";
 
-    public DataIfTransformation(ScriptScope scriptScope) {
-        super(scriptScope);
+    public DataIfTransformation(ScriptEngineWrapper scriptEngineWrapper) {
+        super(scriptEngineWrapper);
     }
 
     @Override
@@ -29,7 +29,7 @@ public class DataIfTransformation extends Transformation {
 
     private void processDataIf(Element dataIf) throws ScriptException {
         String expression = dataIf.attr(DATA_IF_ATTRIBUTE_NAME);
-        if (scriptScope.evaluatesToFalse(expression)) {
+        if (scriptEngineWrapper.evaluatesToFalse(expression)) {
             dataIf.empty();
             dataIf.remove();
         } else {

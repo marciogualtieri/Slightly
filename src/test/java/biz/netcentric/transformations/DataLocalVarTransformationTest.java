@@ -1,9 +1,7 @@
-package test.biz.netcentric.transformations;
+package biz.netcentric.transformations;
 
 import biz.netcentric.helpers.TestHelper;
-import biz.netcentric.script.ScriptScope;
-import biz.netcentric.transformations.DataLocalVarTransformation;
-import biz.netcentric.transformations.Transformation;
+import biz.netcentric.wrappers.ScriptEngineWrapper;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.junit.Before;
@@ -17,12 +15,12 @@ import static org.hamcrest.core.IsNull.notNullValue;
 public class DataLocalVarTransformationTest {
 
     private Transformation transformation;
-    private ScriptScope scriptScope;
+    private ScriptEngineWrapper scriptEngineWrapper;
 
     @Before
     public void before() throws Exception {
-        scriptScope = new ScriptScope();
-        transformation = new DataLocalVarTransformation(scriptScope);
+        scriptEngineWrapper = new ScriptEngineWrapper();
+        transformation = new DataLocalVarTransformation(scriptEngineWrapper);
     }
 
     @Test

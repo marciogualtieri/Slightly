@@ -1,6 +1,6 @@
 package biz.netcentric.transformations;
 
-import biz.netcentric.script.ScriptScope;
+import biz.netcentric.wrappers.ScriptEngineWrapper;
 import biz.netcentric.helpers.TestHelper;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -15,16 +15,16 @@ import static org.hamcrest.core.Is.is;
 public class DataForTransformationTest {
 
     private Transformation transformation;
-    private ScriptScope scriptScope;
+    private ScriptEngineWrapper scriptEngineWrapper;
 
     @Before
     public void before() throws Exception {
-        scriptScope = new ScriptScope();
-        transformation = new DataForTransformation(scriptScope);
+        scriptEngineWrapper = new ScriptEngineWrapper();
+        transformation = new DataForTransformation(scriptEngineWrapper);
     }
 
     @Test
-    public void whenApplyDataForTransformationAndNotEmpty_thenExpandIntoMultipleTags() throws Exception {
+    public void whenApplyDataForTransformationAndNotEmpty_thenTagIsExpandedIntoMultipleTags() throws Exception {
         Document document = TestHelper.TEST_DATA_FOR_DOCUMENT.clone();
         transformation.apply(document);
         Elements elements = document.select("[title=${withChildren.name} child]");
@@ -32,7 +32,7 @@ public class DataForTransformationTest {
     }
 
     @Test
-    public void whenApplyDataForTransformationAndEmpty_thenRemoveTag() throws Exception {
+    public void whenApplyDataForTransformationAndEmpty_thenTagIsRemoved() throws Exception {
         Document document = TestHelper.TEST_DATA_FOR_DOCUMENT.clone();
         transformation.apply(document);
         Elements elements = document.select("[title=${withoutChildren.name} child]");

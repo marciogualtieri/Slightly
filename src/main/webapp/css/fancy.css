@@ -1,3 +1,7 @@
+body {
+    background-color: LightCyan
+}
+
 table {
     border-collapse: collapse;
 }
@@ -17,4 +21,5 @@ td {
 .watermark div {
     border: 3px solid DarkBlue;
     padding: 6px 6px 6px 6px;
+    background-color: White
 }
