@@ -15,7 +15,7 @@ JavaDoc generated documentation will be available in the following file:
 
      ./target/apidocs/index.html
 
-This app has been developed using Maven 3 and Java 8.
+This app has been developed using Maven 3 and Java 7.
 
 ### <a name="behavioral-driven-development"></a> AUTOMATED TESTS
 
