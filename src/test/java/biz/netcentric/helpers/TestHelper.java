@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TestHelper {
-    private static final HtmlHelper HTML_HELPER = new HtmlHelper();
+    private static final HtmlHelper htmlHelper = new HtmlHelper();
     public static final Document TEST_DATA_IF_DOCUMENT;
     public static final Document TEST_DATA_FOR_DOCUMENT;
     public static final List<Element> TEST_CHILDREN;
@@ -22,10 +22,9 @@ public class TestHelper {
     public static final Document TEST_DATA_LOCAL_VAR_DOCUMENT;
     public static final String TEST_DATA_LOCAL_VAR_H1_RENDERED_EXPRESSION = "Person Lucy is married to person Rick.";
 
-    public static final String RENDERED_PAGES_FOLDER = "pages";
+    public static final String TEST_RENDERED_PAGES_FOLDER = "pages";
 
     public static final String TEST_SCRIPT =
-            "load(\"nashorn:mozilla_compat.js\");" +
                     "importClass(Packages.biz.netcentric.Person);" +
                     "var notMarried=Person.lookup(\"1\");" +
                     "var marriedWithChildren=Person.lookup(\"2\");";
@@ -34,11 +33,11 @@ public class TestHelper {
 
     static {
         try {
-            TEST_DATA_IF_DOCUMENT = HTML_HELPER.getHtmlFileAsDocument("templates/data_if_transformer.html");
-            TEST_DATA_FOR_DOCUMENT = HTML_HELPER.getHtmlFileAsDocument("templates/data_for_transformer.html");
-            TEST_RENDERING_DOCUMENT = HTML_HELPER.getHtmlFileAsDocument("templates/rendering_transformer.html");
-            TEST_DATA_INCLUSION_DOCUMENT = HTML_HELPER.getHtmlFileAsDocument("templates/data_inclusion_transformer.html");
-            TEST_DATA_LOCAL_VAR_DOCUMENT = HTML_HELPER.getHtmlFileAsDocument("templates/data_local_var_transformer.html");
+            TEST_DATA_IF_DOCUMENT = htmlHelper.getHtmlFileAsDocument("templates/data_if_transformer.html");
+            TEST_DATA_FOR_DOCUMENT = htmlHelper.getHtmlFileAsDocument("templates/data_for_transformer.html");
+            TEST_RENDERING_DOCUMENT = htmlHelper.getHtmlFileAsDocument("templates/rendering_transformer.html");
+            TEST_DATA_INCLUSION_DOCUMENT = htmlHelper.getHtmlFileAsDocument("templates/data_inclusion_transformer.html");
+            TEST_DATA_LOCAL_VAR_DOCUMENT = htmlHelper.getHtmlFileAsDocument("templates/data_local_var_transformer.html");
 
         } catch (IOException e) {
             throw new ExceptionInInitializerError(e);

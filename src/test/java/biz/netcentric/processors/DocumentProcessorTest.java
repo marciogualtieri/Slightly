@@ -25,7 +25,7 @@ public class DocumentProcessorTest {
         Document document = TestHelper.TEST_DATA_LOCAL_VAR_DOCUMENT.clone();
         documentProcessor.process(document);
         Document expectedDocument = htmlHelper
-                .getHtmlFileAsDocument(TestHelper.RENDERED_PAGES_FOLDER +
+                .getHtmlFileAsDocument(TestHelper.TEST_RENDERED_PAGES_FOLDER +
                         "/data_local_var_rendered.html");
         assertThat(TestHelper.getNormalizedHtml(document),
                 equalTo(TestHelper.getNormalizedHtml(expectedDocument)));

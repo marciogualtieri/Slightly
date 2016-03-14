@@ -9,7 +9,7 @@ import javax.script.ScriptException;
 import java.io.IOException;
 
 /**
- * Removes data-if tags that evaluateOnly to false in the document where the transformation is applied.
+ * Removes data-if tags that evaluate to false in the document where the transformation is applied.
  */
 public class DataIfTransformation extends Transformation {
     private static final String DATA_IF_ATTRIBUTE_NAME = "data-if";

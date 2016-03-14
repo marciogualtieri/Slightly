@@ -13,6 +13,7 @@ import java.io.IOException;
  * Specialize this to implement some document transformation.
  */
 public abstract class Transformation {
+    private final static String SERVER_JAVASCRIPT_SELECT_QUERY = "script[type=server/javascript]";
 
     protected final ScriptEngineWrapper scriptEngineWrapper;
     protected final HtmlHelper htmlHelper = new HtmlHelper();
@@ -22,14 +23,14 @@ public abstract class Transformation {
     }
 
     protected void evaluateScript(Document document) throws ScriptException {
-        Elements scripts = document.select("script[type=server/javascript]");
+        Elements scripts = document.select(SERVER_JAVASCRIPT_SELECT_QUERY);
         for (Element script : scripts) {
             scriptEngineWrapper.evaluateOnly(script.html());
         }
     }
 
     protected void removeScript(Document document) throws ScriptException {
-        Elements scripts = document.select("script[type=server/javascript]");
+        Elements scripts = document.select(SERVER_JAVASCRIPT_SELECT_QUERY);
         for (Element script : scripts) {
             script.remove();
         }

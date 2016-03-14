@@ -57,7 +57,7 @@ public class SlightlyServletIntegrationTest {
     public void whenIGetNonExistentResource_thenOk() throws Exception {
         Document document = getResourceInnerHtmlAsDocument("i/do/not/exist.html");
         Document expectedDocument = htmlHelper
-                .getHtmlFileAsDocument(TestHelper.RENDERED_PAGES_FOLDER +
+                .getHtmlFileAsDocument(TestHelper.TEST_RENDERED_PAGES_FOLDER +
                         "/template_does_not_exist.html");
         assertThat(TestHelper.getNormalizedHtml(document),
                 equalTo(TestHelper.getNormalizedHtml(expectedDocument)));
@@ -74,7 +74,7 @@ public class SlightlyServletIntegrationTest {
         Document document = getResourceInnerHtmlAsDocument(String.format("person.html?id=%d", id));
         Document expectedDocument =
                 htmlHelper.getHtmlFileAsDocument(
-                        String.format("%s/person%d.html", TestHelper.RENDERED_PAGES_FOLDER, id));
+                        String.format("%s/person%d.html", TestHelper.TEST_RENDERED_PAGES_FOLDER, id));
         assertThat(TestHelper.getNormalizedHtml(document),
                 equalTo(TestHelper.getNormalizedHtml(expectedDocument)));
     }

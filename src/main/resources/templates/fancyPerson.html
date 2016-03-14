@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
 <script type="server/javascript">
-load("nashorn:mozilla_compat.js");
 importClass(Packages.biz.netcentric.Person);
 var id=request.getParameter("id");
 var person=Person.lookup(id);
@@ -43,10 +42,10 @@ var person=Person.lookup(id);
         <td>${person.spouse}</td>
     </tr>
 
-    <tr data-if="person.children.length > 0">
+    <tr data-if="Object.keys(person.children).length > 0">
         <th>Children</th>
     </tr>
-    <tr data-if="person.children.length > 0" data-for-child="person.children">
+    <tr data-if="Object.keys(person.children).length > 0" data-for-child="person.children">
         <td>${child}</td>
     </tr>
 </table>

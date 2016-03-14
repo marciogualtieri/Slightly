@@ -52,7 +52,7 @@ public class ScriptEngineWrapper {
 
     public Integer evaluateToInteger(String expression) throws ScriptException {
         try {
-            return (Integer) engine.eval(expression);
+            return ((Double) engine.eval(expression)).intValue();
         } catch (Exception e) {
             throw new ScriptException(e);
         }
