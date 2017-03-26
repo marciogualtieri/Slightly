@@ -53,14 +53,20 @@ Each of the transformations that need to be applied to the document template (su
 
 The ```DocumentProcessor``` simply initializes a list of these transformations (commands) on creation and apply every and each one of them to the document when ```DocumentProcessor.process()``` is called.
 
-![Alt text](http://g.gravizo.com/g?
+
+
+![](https://g.gravizo.com/source/svg/custom_mark1?https%3A%2F%2Fraw.githubusercontent.com%2Fmarciogualtieri%2FSlightly%2Fmaster%2FREADME.md)
+
+<!---
+custom_mark1
   digraph G {
     DataInclusionTransformation -> DataIfTransformation
     DataIfTransformation -> DataForTransformation
     DataForTransformation -> DataLocalVarTransformation
     DataLocalVarTransformation -> RenderingTransformation
   }
-)
+custom_mark1
+-->
 
 Using this pattern creates a open-closed design: If a new transformation is required (such as adding support to template-element for instance), we only need to implement a new transformation class (e.g. ```TemplateElementTransformation```) and add an instance of this new class to the list of transformations of the ```DocumentProcessor```.
 
